@@ -1,0 +1,69 @@
+Write Code to Simulate a digital dice using LEDs. When a button is pressed, generate a random number and display it using the LEDs.
+use stm32 with nucleo board
+
+Certainly! Here's an example code snippet that demonstrates how to simulate a digital dice using LEDs on an STM32 Nucleo board. When a button is pressed, a random number between 1 and 6 will be generated and displayed using the LEDs. This example assumes you're using the STM32CubeHAL library and STM32CubeIDE for development.
+
+In this example, we'll use the built-in pseudo-random number generator (PRNG) to generate random numbers. We'll connect a pushbutton to Pin D2 (usually PA0) on the Nucleo board, and LEDs to Pins D12-D15 (usually PA6-PA9).
+
+c
+Copy code
+#include "stm32f4xx_hal.h"
+#include <stdlib.h>
+
+// Function prototypes
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+
+int main(void) {
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+
+    uint32_t randomValue = 1; // Initialize with a value
+
+    while (1) {
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET) {
+            // Button is pressed, generate a random number
+            randomValue = (rand() % 6) + 1; // Generate a number between 1 and 6
+
+            // Display the number using LEDs
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5 << (randomValue - 1), GPIO_PIN_SET);
+
+            // Wait until the button is released
+            while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET) {
+                // Wait
+            }
+        }
+    }
+}
+
+void SystemClock_Config(void) {
+    // System clock configuration code
+}
+
+static void MX_GPIO_Init(void) {
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    // Configure LED pins (PA5 - PA9) as outputs
+    GPIO_InitStruct.Pin = GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    // Configure button pin (PA0) as input with pull-up
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+}
+
+In this example, when the button on Pin D2 (PA0) is pressed, a random number between 1 and 6 is generated using the rand() function. The generated number is then used to light up the corresponding LED(s) on Pins D12-D15 (PA6-PA9) to simulate a dice roll. The LEDs are turned off when the button is released.
+
+Before using this code, make sure that you've properly configured the STM32CubeIDE project for your specific Nucleo board and microcontroller model, set up the appropriate peripherals and GPIOs, and initialized the HAL library.
+
+Remember to refer to the STM32 reference manual and STM32CubeHAL documentation for the specific details related to your microcontroller model and development environment.
