@@ -1,0 +1,43 @@
+how to test Master slave spi connection between 2 stm32f103c8 using proteus 
+Testing a Master-Slave SPI connection between two STM32F103C8 microcontrollers in Proteus involves several steps. Here's a step-by-step guide:
+
+Note: Make sure you have both STM32F103C8 microcontrollers added to your Proteus schematic, and you have a basic understanding of configuring these microcontrollers using the STM32CubeMX and STM32CubeIDE software.
+
+Configure the Microcontrollers:
+
+Open STM32CubeMX and create two new projects for each STM32F103C8 microcontroller.
+Configure the SPI peripherals on both microcontrollers as needed. Set one as the master and the other as the slave.
+Configure the GPIO pins for SPI communication (MISO, MOSI, SCK, and NSS/CS) on both microcontrollers.
+Generate code for both projects and export them to your STM32CubeIDE workspace.
+STM32CubeIDE:
+
+Open STM32CubeIDE and import the projects you created in STM32CubeMX for both microcontrollers.
+Write the code for the master and slave devices.
+Ensure that you correctly configure the SPI peripherals, such as setting the data frame format (8-bit, 16-bit, etc.), clock polarity, and phase.
+Implement the necessary functions to send and receive data via SPI.
+Compile and Program:
+
+Compile the code for both microcontrollers and generate binary files.
+Program each microcontroller with its respective binary file using your ST-Link, JTAG, or any other programming/debugging tool you have.
+Proteus Schematic:
+
+In Proteus, create a new schematic and add the STM32F103C8 microcontrollers. Connect power supplies, ground, and other necessary components.
+Connect the SPI communication lines (MISO, MOSI, SCK, and NSS/CS) between the master and slave microcontrollers. Ensure proper connections according to your hardware setup.
+Configure the Microcontrollers in Proteus:
+
+Double-click on each STM32F103C8 microcontroller in your schematic to open their properties.
+Under the "Program File" tab, browse and select the binary files you generated earlier for each microcontroller. This step is essential to load the firmware onto the virtual microcontrollers in Proteus.
+Simulation Settings:
+
+Configure simulation settings in Proteus. You can set the clock frequency, enable debugging if needed, and specify the simulation time.
+Run the Simulation:
+
+Start the Proteus simulation. The master and slave microcontrollers should communicate through SPI as per your code.
+Observation and Debugging:
+
+Observe the SPI communication by monitoring the signals on the SPI lines using logic analyzers or oscilloscope tools available in Proteus.
+Debug any issues that may arise during the simulation, such as incorrect data transmission or clock settings.
+Iterate and Test:
+
+If there are issues, iterate on your code and simulation until the SPI communication works correctly between the master and slave.
+By following these steps, you should be able to test a Master-Slave SPI connection between two STM32F103C8 microcontrollers in Proteus. Ensure that your hardware connections and software configurations match your schematic and code.
